@@ -8,7 +8,7 @@ class BookList extends Component {
     return this.props.books.map((book) => {
       return (
         <li
-          onClick={ () => console.log(this.props.selectBook(book).payload.title) }
+          onClick={ () => this.props.selectBook(book) }
           key={ book.id }
           className="list-group-item">
           { book.title }
