@@ -1,12 +1,24 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import { createPost } from '../actions/index';
 import { Link } from 'react-router';
 
 class PostsNew extends Component {
 
+  static contextTypes =  {
+    router: PropTypes.object
+  };
+
   getFieldDangerStyle(field) {
     return field.touched && field.invalid ? 'has-danger' : '';
+  }
+
+  onSubmit(formProps) {
+    this.props.createPost(formProps)
+      .then(() => {
+        // blog post has been created, navigate to index
+        this.context.router.push('/');
+      });
   }
 
   render() {
@@ -14,7 +26,7 @@ class PostsNew extends Component {
     //const title = this.props.fields.title ...
     const { fields: { title, categories, content }, handleSubmit } = this.props;
     return (
-      <form onSubmit={ handleSubmit(this.props.createPost) }>
+      <form onSubmit={ handleSubmit(this.onSubmit.bind(this)) }>
         <h3>Create A New Post</h3>
 
         <div className={ `form-group ${this.getFieldDangerStyle(title)}` }>
