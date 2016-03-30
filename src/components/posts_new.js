@@ -3,6 +3,11 @@ import { reduxForm } from 'redux-form';
 import { createPost } from '../actions/index';
 
 class PostsNew extends Component {
+
+  getFieldDangerStyle(field) {
+    return field.touched && field.invalid ? 'has-danger' : '';
+  }
+
   render() {
     //const handleSubmit = this.props.handleSubmit; // Refactor
     //const title = this.props.fields.title ...
@@ -10,7 +15,8 @@ class PostsNew extends Component {
     return (
       <form onSubmit={ handleSubmit(this.props.createPost) }>
         <h3>Create A New Post</h3>
-        <div className="form-group">
+
+        <div className={ `form-group ${this.getFieldDangerStyle(title)}` }>
           <label htmlFor="">Title</label>
           <input type="text" className="form-control" {...title} />
           <div className="text-help">
@@ -18,7 +24,7 @@ class PostsNew extends Component {
           </div>
         </div>
 
-        <div className="form-group">
+        <div className={ `form-group ${this.getFieldDangerStyle(categories)}` }>
           <label htmlFor="">Categories</label>
           <input type="text" className="form-control" {...categories} />
           <div className="text-help">
@@ -26,7 +32,7 @@ class PostsNew extends Component {
           </div>
         </div>
 
-        <div className="form-group">
+        <div className={ `form-group ${this.getFieldDangerStyle(content)}` }>
           <label htmlFor="">Content</label>
           <textarea className="form-control" {...content} />
           <div className="text-help">
@@ -50,7 +56,7 @@ function validate(values) {
     errors.categories = 'Enter categories';
   }
   if (!values.content) {
-    errors.content = 'Enter the content';
+    errors.content = 'Enter some content';
   }
 
   return errors;
